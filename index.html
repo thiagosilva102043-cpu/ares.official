@@ -92,7 +92,6 @@
         .game-container {
             width: 90%; max-width: 800px; height: 60vh;
             background-color: #0a0a0a;
-            /* Grid Tático */
             background-image: 
                 linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
@@ -104,10 +103,8 @@
             border-radius: 10px;
         }
 
-        /* Alvo (Bolinha) Mais Bonito */
         .target {
             width: 60px; height: 60px;
-            /* Efeito de esfera digital */
             background: radial-gradient(circle at 30% 30%, #ff4d4d, #ff0000);
             border: 2px solid #fff;
             border-radius: 50%; 
@@ -118,7 +115,6 @@
             z-index: 5;
         }
         
-        /* Centro do alvo */
         .target::after {
             content: '';
             position: absolute;
@@ -175,11 +171,9 @@
         .hero-logo { width: 110px; height: 110px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 3px solid #fff; }
         .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* Mudança 4: Titulo Oficial */
         h1 { font-family: var(--fonte-titulo); font-size: clamp(5rem, 15vw, 11rem); line-height: 0.9; text-transform: uppercase; color: var(--cor-texto); text-shadow: 4px 4px 0px #111; }
         .subtitle { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 8px; color: var(--cor-neon); font-weight: 800; margin-bottom: 30px; }
         
-        /* Mudança 2: Marquee Nítido (Sem Brilho) */
         .marquee-container { position: absolute; bottom: 40px; width: 100%; background: var(--cor-neon); padding: 10px 0; transform: rotate(-2deg) scale(1.1); z-index: 15; border-top: 2px solid #fff; border-bottom: 2px solid #fff; overflow: hidden; }
         .marquee-content { display: flex; gap: 100px; white-space: nowrap; animation: marquee 15s linear infinite; }
         .marquee-item { 
@@ -188,7 +182,7 @@
             text-transform: uppercase; 
             font-weight: 900; 
             color: #fff; 
-            text-shadow: none !important; /* Garante nitidez */
+            text-shadow: none !important;
         }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
@@ -199,28 +193,16 @@
         .col-media { grid-column: span 7; min-height: 450px; }
         h2 { font-family: var(--fonte-titulo); font-size: 4.5rem; text-transform: uppercase; line-height: 0.9; margin-bottom: 30px; }
         p { color: #ccc; font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; }
+        
         .subscriber-counter-box { background: #111; border: 1px solid #333; padding: 20px; margin: 30px 0; text-align: center; }
         .sub-label { display: block; color: var(--cor-neon); text-transform: uppercase; font-weight: bold; letter-spacing: 2px; font-size: 0.9rem; }
         .sub-number { font-family: 'Courier New', monospace; font-size: 3.5rem; color: #fff; font-weight: bold; }
+        
         .btn-neon { display: inline-block; text-align: center; background: transparent; color: var(--cor-neon); border: 2px solid var(--cor-neon); padding: 15px 30px; font-family: var(--fonte-titulo); font-size: 1.5rem; text-transform: uppercase; cursor: pointer; width: 100%; transition: 0.3s; }
         .btn-neon:hover { background: var(--cor-neon); color: #000; }
         
-        /* Mudança 3: Vídeo 16:9 estrito */
-        .video-wrapper { 
-            width: 100%; 
-            position: relative; 
-            padding-bottom: 56.25%; /* Proporção 16:9 Exata */
-            height: 0;
-            overflow: hidden; 
-            border: 1px solid #333; 
-            background: #000;
-        }
-        .video-wrapper iframe { 
-            position: absolute; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            border: none; 
-        }
+        .video-wrapper { width: 100%; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid #333; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         .gallery-section { padding: 50px 20px; max-width: 1400px; margin: 0 auto; }
         .section-title { font-family: var(--fonte-titulo); font-size: 3rem; color: #fff; margin-bottom: 40px; border-bottom: 1px solid #333; padding-bottom: 10px; }
@@ -303,7 +285,12 @@
                     <h2>Ares<br><span style="color:var(--cor-neon)">Sobre</span></h2>
                     <p>Fala, galera! Aqui é o <strong>ARES</strong>. Se você curte Battlefield de verdade, chegou no lugar certo.</p>
                     <p>Criei esse canal pra compartilhar o que eu mais gosto: aquelas partidas insanas, momentos engraçados com a galera e, claro, as melhores plays. Aqui o foco é a guerra total, tanques, caças e tudo que envolve mira e estratégia. Chega junto que o conteúdo é feito de fã pra fã.</p>
-                    <div class="subscriber-counter-box"><span class="sub-label">Inscritos</span><div id="sub-count" class="sub-number">0</div></div>
+                    
+                    <div class="subscriber-counter-box">
+                        <span class="sub-label">Inscritos (Ao Vivo)</span>
+                        <div id="sub-count" class="sub-number">Carregando...</div>
+                    </div>
+                    
                     <a href="https://www.youtube.com/@aresoffc?sub_confirmation=1" class="btn-neon"><i class="fab fa-youtube"></i> INSCREVA-SE</a>
                 </div>
                 <div class="col-media">
@@ -346,10 +333,55 @@
     </main>
 
     <script>
-        // LÓGICA DO JOGO
+        // 1. CONFIGURAÇÕES DA API DO YOUTUBE
+        // Substitua abaixo com sua chave e ID real
+        const YOUTUBE_API_KEY = 'SUA_CHAVE_API_AQUI'; 
+        const YOUTUBE_CHANNEL_ID = 'SEU_ID_DE_CANAL_AQUI'; // Ex: UC...
+
+        // 2. Lógica do Contador Automático
+        async function getLiveSubscribers() {
+            const countEl = document.getElementById('sub-count');
+            
+            // URL da API
+            const url = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${YOUTUBE_CHANNEL_ID}&key=${YOUTUBE_API_KEY}`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.items && data.items.length > 0) {
+                    const realCount = parseInt(data.items[0].statistics.subscriberCount);
+                    animateCounter(realCount, countEl);
+                } else {
+                    // Se der erro ou não achar, mostra um fallback (ou o último conhecido)
+                    console.error("Erro: Canal não encontrado ou cota excedida");
+                    animateCounter(90, countEl); // Fallback para 90
+                }
+            } catch (error) {
+                console.error("Erro ao conectar com YouTube:", error);
+                animateCounter(90, countEl); // Fallback
+            }
+        }
+
+        // Animação do número subindo
+        function animateCounter(target, element) {
+            let current = 0;
+            const increment = Math.ceil(target / 50); // Velocidade da animação
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.innerText = current.toLocaleString('pt-BR'); // Formata com ponto (Ex: 1.000)
+            }, 30);
+        }
+
+        // 3. MINIGAME LÓGICA
         let score = 0;
-        let timeLeft = 15; // Mudança 1: Tempo Reduzido
-        const targetGoal = 10; // Mudança 1: Meta Reduzida
+        let timeLeft = 15;
+        const targetGoal = 10;
         let timerInterval;
         let isGameActive = false;
 
@@ -373,7 +405,7 @@
 
         function startGame() {
             score = 0;
-            timeLeft = 15; // Reset do tempo
+            timeLeft = 15;
             isGameActive = true;
             scoreEl.innerText = score;
             timerEl.innerText = timeLeft;
@@ -395,18 +427,12 @@
             if (!isGameActive) return;
             const target = document.createElement('div');
             target.classList.add('target');
-            
-            // Margem de segurança para não sair da tela
             const maxX = gameArea.clientWidth - 70;
             const maxY = gameArea.clientHeight - 70;
-            
-            // Posição garantida dentro do container
             const randomX = Math.floor(Math.random() * maxX) + 10;
             const randomY = Math.floor(Math.random() * maxY) + 10;
-            
             target.style.left = randomX + 'px';
             target.style.top = randomY + 'px';
-            
             target.addEventListener('mousedown', () => {
                 if(!isGameActive) return;
                 score++;
@@ -434,22 +460,10 @@
         window.unlockSite = function() {
             gateOverlay.classList.add('unlocked');
             document.body.classList.remove('locked');
-            setTimeout(() => { initMainSite(); }, 800);
+            
+            // Chama a função que busca os inscritos reais
+            setTimeout(() => { getLiveSubscribers(); }, 800);
         };
-
-        function initMainSite() {
-            const countEl = document.getElementById('sub-count');
-            const targetCount = 90; 
-            let currentCount = 0;
-            const duration = 2000; 
-            const step = targetCount / (duration / 30); 
-            function updateCounter() {
-                currentCount += step;
-                if (currentCount < targetCount) { countEl.innerText = Math.ceil(currentCount); requestAnimationFrame(updateCounter); } 
-                else { countEl.innerText = targetCount; }
-            }
-            updateCounter();
-        }
     </script>
 </body>
 </html>
