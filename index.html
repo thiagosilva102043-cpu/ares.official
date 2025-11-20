@@ -88,7 +88,6 @@
         }
         #game-wrapper.active { display: flex; }
 
-        /* Interface do Minigame Melhorada */
         .game-container {
             width: 90%; max-width: 800px; height: 60vh;
             background-color: #0a0a0a;
@@ -170,7 +169,6 @@
         .hero-content { position: relative; z-index: 10; text-align: center; width: 100%; padding: 0 20px; }
         .hero-logo { width: 110px; height: 110px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 3px solid #fff; }
         .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
-        
         h1 { font-family: var(--fonte-titulo); font-size: clamp(5rem, 15vw, 11rem); line-height: 0.9; text-transform: uppercase; color: var(--cor-texto); text-shadow: 4px 4px 0px #111; }
         .subtitle { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 8px; color: var(--cor-neon); font-weight: 800; margin-bottom: 30px; }
         
@@ -204,7 +202,7 @@
         .video-wrapper { 
             width: 100%; 
             position: relative; 
-            padding-bottom: 56.25%; /* Proporção 16:9 Exata */
+            padding-bottom: 56.25%; 
             height: 0;
             overflow: hidden; 
             border: 1px solid #333; 
@@ -219,10 +217,23 @@
 
         .gallery-section { padding: 50px 20px; max-width: 1400px; margin: 0 auto; }
         .section-title { font-family: var(--fonte-titulo); font-size: 3rem; color: #fff; margin-bottom: 40px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
-        .gallery-item { position: relative; padding-bottom: 56.25%; background: #111; border: 1px solid #333; transition: 0.3s; }
+        
+        /* Grid Dinâmico */
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsivo automático */
+            gap: 20px; 
+        }
+        .gallery-item { 
+            position: relative; 
+            padding-bottom: 56.25%; 
+            background: #111; 
+            border: 1px solid #333; 
+            transition: 0.3s; 
+        }
         .gallery-item:hover { transform: scale(1.02); border-color: var(--cor-neon); z-index: 2; }
         .gallery-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .loading-text { color: #888; font-family: var(--fonte-tech); text-align: center; width: 100%; }
 
         .sniper-container { width: 100%; height: 70vh; position: relative; background: radial-gradient(circle at center, #222 0%, #000 100%); display: flex; justify-content: center; align-items: center; overflow: hidden; border-top: 4px solid var(--cor-neon); margin-top: 50px; }
         model-viewer { width: 100%; height: 100%; z-index: 1; outline: none; }
@@ -316,16 +327,9 @@
 
         <div class="gallery-section">
             <h2 class="section-title"><span style="color:var(--cor-neon)">ÚLTIMOS</span> VÍDEOS</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item"><iframe src="https://www.youtube.com/embed/BzVdU2lcRxg" allowfullscreen></iframe></div>
-                <div class="gallery-item"><iframe src="https://www.youtube.com/embed/BxgaaW_fcw8" allowfullscreen></iframe></div>
-                <div class="gallery-item"><iframe src="https://www.youtube.com/embed/rRlOMLFgyxw" allowfullscreen></iframe></div>
-                <div class="gallery-item"><iframe src="https://www.youtube.com/embed/kdZfmLim_X8" allowfullscreen></iframe></div>
-                <div class="gallery-item"><iframe src="https://www.youtube.com/embed/IiM4EDNg5Sw" allowfullscreen></iframe></div>
-                <div class="gallery-item"><iframe src="https://www.youtube.com/embed/ttmyDwdgMIo" allowfullscreen></iframe></div>
-                <div class="gallery-item"><iframe src="https://www.youtube.com/embed/-UkxnBWBHpU" allowfullscreen></iframe></div>
-                <div class="gallery-item"><iframe src="https://www.youtube.com/embed/zvViYC5Tk88" allowfullscreen></iframe></div>
-                <div class="gallery-item"><iframe src="https://www.youtube.com/embed/M27zC6lT67w" allowfullscreen></iframe></div>
+            
+            <div class="gallery-grid" id="video-gallery">
+                <p class="loading-text">BUSCANDO DADOS TÁTICOS...</p>
             </div>
         </div>
 
@@ -346,11 +350,11 @@
     </main>
 
     <script>
-        // 1. CONFIGURAÇÕES DA API DO YOUTUBE
+        // 1. CONFIGURAÇÕES API
         const YOUTUBE_API_KEY = 'AIzaSyA6RUJaBYnAGibaU30OlTXEG-S_Dmgp_RM'; 
         const YOUTUBE_CHANNEL_ID = 'UCeHMBicDieoSleMy9aSiTlg';
 
-        // 2. Lógica do Contador Automático
+        // 2. BUSCAR INSCRITOS
         async function getLiveSubscribers() {
             const countEl = document.getElementById('sub-count');
             const url = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${YOUTUBE_CHANNEL_ID}&key=${YOUTUBE_API_KEY}`;
@@ -358,33 +362,56 @@
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                
                 if (data.items && data.items.length > 0) {
                     const realCount = parseInt(data.items[0].statistics.subscriberCount);
-                    animateCounter(realCount, countEl);
+                    countEl.innerText = realCount.toLocaleString('pt-BR');
                 } else {
-                    animateCounter(90, countEl); // Fallback
+                    countEl.innerText = "90"; // Fallback
                 }
             } catch (error) {
-                console.error("Erro API:", error);
-                animateCounter(90, countEl);
+                console.error("Erro API Inscritos:", error);
+                countEl.innerText = "90";
             }
         }
 
-        function animateCounter(target, element) {
-            let current = 0;
-            const increment = Math.ceil(target / 50); 
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
+        // 3. BUSCAR ÚLTIMOS VÍDEOS AUTOMATICAMENTE
+        async function loadLatestVideos() {
+            const gallery = document.getElementById('video-gallery');
+            // Busca os 9 vídeos mais recentes
+            const url = `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${YOUTUBE_CHANNEL_ID}&part=snippet,id&order=date&maxResults=9&type=video`;
+
+            try {
+                const req = await fetch(url);
+                const res = await req.json();
+
+                if (res.items) {
+                    gallery.innerHTML = ''; // Limpa o texto de carregamento
+                    res.items.forEach(video => {
+                        const videoId = video.id.videoId;
+                        const item = document.createElement('div');
+                        item.className = 'gallery-item';
+                        
+                        // Cria o iframe do YouTube
+                        item.innerHTML = `
+                            <iframe 
+                                src="https://www.youtube.com/embed/${videoId}" 
+                                title="${video.snippet.title}" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        `;
+                        gallery.appendChild(item);
+                    });
+                } else {
+                    gallery.innerHTML = '<p class="loading-text">ERRO AO CARREGAR VÍDEOS (Cota da API)</p>';
                 }
-                element.innerText = current.toLocaleString('pt-BR'); 
-            }, 30);
+            } catch (e) {
+                console.error("Erro Videos:", e);
+                gallery.innerHTML = '<p class="loading-text">ERRO DE CONEXÃO TÁTICA</p>';
+            }
         }
 
-        // 3. MINIGAME LÓGICA
+        // 4. MINIGAME LÓGICA
         let score = 0;
         let timeLeft = 15;
         const targetGoal = 10;
@@ -466,7 +493,12 @@
         window.unlockSite = function() {
             gateOverlay.classList.add('unlocked');
             document.body.classList.remove('locked');
-            setTimeout(() => { getLiveSubscribers(); }, 800);
+            
+            // Inicia as buscas de dados
+            setTimeout(() => { 
+                getLiveSubscribers(); 
+                loadLatestVideos(); 
+            }, 800);
         };
     </script>
 </body>
