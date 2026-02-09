@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOD VAREJO | Equipamentos e Acessórios</title>
+    <title>DOD VAREJO | Premium Selection</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -43,33 +43,48 @@
         }
         .nav-links a:hover { color: #fff; }
 
-        /* INÍCIO */
+        /* HERO */
         .hero {
-            height: 70vh;
+            height: 60vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center;
             background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
             padding-top: 80px;
         }
 
-        .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            margin-bottom: 20px;
-        }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; text-transform: uppercase; letter-spacing: -1px; }
 
-        .hero p { color: var(--text-gray); font-size: 1.1rem; max-width: 600px; margin-bottom: 40px; }
-
-        /* SEÇÃO DE PRODUTOS */
-        .catalog-section { padding: 80px 8% 100px; }
+        /* DESTAQUES */
+        .featured-section { padding: 60px 8%; background: #080808; }
         .section-tag { color: var(--text-gray); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 10px; }
         
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .featured-card {
+            background: #151515;
+            border-radius: var(--radius);
+            padding: 40px;
+            border: 1px solid #333;
+            transition: 0.4s;
+            text-align: center;
+            position: relative;
+        }
+
+        .featured-card:hover { border-color: #fff; transform: translateY(-10px); }
+        .featured-card img { width: 100%; height: 280px; object-fit: contain; margin-bottom: 25px; }
+        .badge { position: absolute; top: 20px; right: 20px; background: #fff; color: #000; padding: 5px 12px; font-size: 0.6rem; font-weight: 700; border-radius: 20px; }
+
+        /* CATALOGO */
+        .catalog-section { padding: 80px 8%; }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         .card {
@@ -78,86 +93,50 @@
             padding: 20px;
             border: 1px solid #222;
             transition: 0.3s;
-            display: flex;
-            flex-direction: column;
         }
 
-        .card:hover { border-color: #555; transform: translateY(-5px); background: #161616; }
-        
-        .card-img-box {
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            background: #1a1a1a;
-        }
-
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.5s;
-        }
-
-        .card:hover img { transform: scale(1.08); }
-        
-        .card h3 { 
-            font-size: 0.85rem; 
-            font-weight: 400; 
-            margin-bottom: 20px; 
-            color: #eee; 
-            text-transform: uppercase;
-            min-height: 40px;
-        }
+        .card:hover { border-color: #444; }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; }
+        .card h3 { font-size: 0.8rem; text-transform: uppercase; margin-bottom: 15px; color: #ccc; min-height: 40px; display: flex; align-items: center; }
 
         .btn-buy {
             width: 100%; padding: 12px;
             background: transparent; border: 1px solid #333;
             color: #fff; text-decoration: none;
             display: block; text-align: center;
-            border-radius: 8px; font-size: 0.75rem; font-weight: 700;
+            border-radius: 8px; font-size: 0.7rem; font-weight: 700;
             transition: 0.3s;
-            margin-top: auto;
         }
 
-        .btn-buy:hover { background: #fff; color: #000; border-color: #fff; }
+        .btn-buy:hover { background: #fff; color: #000; }
 
         /* CONTATO */
         .contact-container {
             padding: 100px 8%;
             background: #000;
             display: flex; gap: 50px;
-            align-items: center;
             border-top: 1px solid #222;
         }
 
         .contact-info { flex: 1; }
-        .contact-info h2 { font-size: 2.5rem; margin-bottom: 30px; text-transform: uppercase; }
-        .contact-info p { margin-bottom: 15px; color: var(--text-gray); }
-        
-        .map-wrapper {
-            flex: 1; height: 400px;
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 1px solid #333;
-            filter: grayscale(1) invert(90%);
-        }
+        .contact-info h2 { font-size: 2rem; margin-bottom: 20px; }
+        .contact-info p { margin-bottom: 10px; color: var(--text-gray); }
+
+        .map-wrapper { flex: 1; height: 350px; border-radius: var(--radius); overflow: hidden; border: 1px solid #333; }
 
         @media (max-width: 900px) {
-            .contact-container { grid-template-columns: 1fr; flex-direction: column; }
-            .nav-links { display: none; }
+            .featured-grid, .contact-container { grid-template-columns: 1fr; flex-direction: column; }
+            .map-wrapper { height: 250px; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="nav-logo">
-            <img src="https://upae.com.br/s/laranja-forte" alt="DOD VAREJO">
-        </div>
+        <div class="nav-logo"><img src="https://upae.com.br/s/laranja-forte" alt="DOD VAREJO"></div>
         <div class="nav-links">
             <a href="#home">Início</a>
+            <a href="#destaques">Destaques</a>
             <a href="#produtos">Produtos</a>
             <a href="#contato">Contato</a>
         </div>
@@ -165,97 +144,72 @@
 
     <section id="home" class="hero">
         <span class="section-tag">DOD VAREJO</span>
-        <h1>EQUIPAMENTOS DE <br> ALTA PERFORMANCE</h1>
-        <p>Acessórios para motociclistas e tecnologia de captura para sua jornada.</p>
+        <h1>SEJA BEM VINDO</h1>
+        <p>A elite em acessórios e tecnologia motociclística.</p>
+    </section>
+
+    <section id="destaques" class="featured-section">
+        <span class="section-tag">Seleção Premium</span>
+        <h2 style="margin-bottom: 30px;">PRODUTOS EM DESTAQUE</h2>
+        
+        <div class="featured-grid">
+            <div class="featured-card">
+                <div class="badge">MAIS PROCURADO</div>
+                <img src="https://upae.com.br/s/laranja-sereno" alt="Baú Metal">
+                <h3>Baú de Metal Robusto</h3>
+                <a href="https://wa.me/55119959967491?text=Interesse: Baú de Metal" class="btn-buy">SABER MAIS</a>
+            </div>
+
+            <div class="featured-card">
+                <div class="badge">LANÇAMENTO</div>
+                <img src="https://upae.com.br/s/cupuacu-valente" alt="Jaqueta LS2">
+                <h3>Jaqueta LS2 Premium</h3>
+                <a href="https://wa.me/55119959967491?text=Interesse: Jaqueta LS2" class="btn-buy">SABER MAIS</a>
+            </div>
+
+            <div class="featured-card">
+                <div class="badge">SEGURANÇA MÁXIMA</div>
+                <img src="https://upae.com.br/s/coxinha-valente" alt="Capacete">
+                <h3>Capacete Pro Evolution</h3>
+                <a href="https://wa.me/55119959967491?text=Interesse: Capacete" class="btn-buy">SABER MAIS</a>
+            </div>
+        </div>
     </section>
 
     <section id="produtos" class="catalog-section">
         <span class="section-tag">Catálogo Completo</span>
-        <h2 style="margin-bottom: 40px; font-size: 2rem;">PRODUTOS DISPONÍVEIS</h2>
+        <h2 style="margin-bottom: 40px;">TODOS OS PRODUTOS</h2>
         
         <div class="grid">
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/carambola-sereno" alt="Elgato 4K"></div>
-                <h3>Placa de Captura Elgato 4K</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Elgato 4K" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/laranja-sereno" alt="Baú Moto"></div>
-                <h3>Baú para Moto Plástico</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Baú de Moto" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/pirao-veloz" alt="GoPro 4K"></div>
-                <h3>GoPro 4K Professional</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: GoPro 4K" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/cupuacu-valente" alt="Jaqueta LS2"></div>
-                <h3>Jaqueta LS2 Premium</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Jaqueta LS2" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/churrasco-lendario" alt="Câmera Básica"></div>
-                <h3>Câmera 1/1 Básica</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Câmera Básica" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/carambola-dourado" alt="Câmera Média"></div>
-                <h3>Câmera 2/2 Média</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Câmera Média" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/acaraje-veloz" alt="Câmera Grande"></div>
-                <h3>Câmera 3/3 Grande</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Câmera Grande" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/coxinha-valente" alt="Capacete"></div>
-                <h3>Capacete Premium</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Capacete" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/pacoca-etereo" alt="Capa Chuva"></div>
-                <h3>Capa de Chuva Motociclista</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Capa de Chuva" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/mandioca-lunar" alt="Suporte"></div>
-                <h3>Suporte para Celular</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Suporte Celular" class="btn-buy">SABER PREÇO</a>
-            </div>
-
-            <div class="card">
-                <div class="card-img-box"><img src="https://upae.com.br/s/caipirinha-lunar" alt="Luvas"></div>
-                <h3>Luva de Frio</h3>
-                <a href="https://wa.me/55119959967491?text=Interesse: Luva de Frio" class="btn-buy">SABER PREÇO</a>
-            </div>
+            <div class="card"><img src="https://upae.com.br/s/laranja-sereno" alt="Baú"><h3>Baú de Metal</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            <div class="card"><img src="https://upae.com.br/s/cupuacu-valente" alt="Jaqueta"><h3>Jaqueta LS2</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            <div class="card"><img src="https://upae.com.br/s/coxinha-valente" alt="Capacete"><h3>Capacete Pro</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            
+            <div class="card"><img src="https://upae.com.br/s/carambola-sereno" alt="Elgato"><h3>Placa Elgato 4K</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            <div class="card"><img src="https://upae.com.br/s/pirao-veloz" alt="GoPro"><h3>GoPro 4K</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            <div class="card"><img src="https://upae.com.br/s/churrasco-lendario" alt="Camera 1"><h3>Câmera 1/1 Básica</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            <div class="card"><img src="https://upae.com.br/s/carambola-dourado" alt="Camera 2"><h3>Câmera 2/2 Média</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            <div class="card"><img src="https://upae.com.br/s/acaraje-veloz" alt="Camera 3"><h3>Câmera 3/3 Grande</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            <div class="card"><img src="https://upae.com.br/s/pacoca-etereo" alt="Capa"><h3>Capa de Chuva</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            <div class="card"><img src="https://upae.com.br/s/mandioca-lunar" alt="Suporte"><h3>Suporte Celular</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
+            <div class="card"><img src="https://upae.com.br/s/caipirinha-lunar" alt="Luvas"><h3>Luva de Frio</h3><a href="https://wa.me/55119959967491" class="btn-buy">VER PREÇO</a></div>
         </div>
     </section>
 
     <section id="contato" class="contact-container">
         <div class="contact-info">
-            <h2>Entre em Contato</h2>
-            <p style="font-size: 1.5rem; color: #fff; font-weight: 700; letter-spacing: 2px;">DOD VAREJO</p>
-            <p>📍 <strong>Localização:</strong> São Paulo - SP</p>
-            <p>📞 <strong>SP e Região:</strong> 11 99599-67491</p>
-            <p>📱 <strong>Outras Regiões:</strong> 47 99931-4726</p>
+            <h2>CONTATO</h2>
+            <p style="font-size: 1.5rem; color: #fff; font-weight: 700; margin-bottom: 20px;">DOD VAREJO</p>
+            <p>📍 São Paulo - SP</p>
+            <p>📞 11 99599-67491</p>
+            <p>📱 47 99931-4726</p>
         </div>
         <div class="map-wrapper">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d234147.10324317452!2d-46.788812676839!3d-23.5486703!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce448183a461d1%3A0xad4d923f0a049ad2!2zU8OjbyBQYXVsbywgU1A!5e0!3m2!1spt-BR!2sbr!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d230482.5937550085!2d-46.80121773662234!3d-23.582845347267595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce44818353e501%3A0x3036573752e25f8!2zU8OjbyBQYXVsbywgU1A!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
     </section>
 
-    <footer style="padding: 50px; text-align: center; color: #444; font-size: 0.7rem; border-top: 1px solid #111;">
+    <footer style="padding: 40px; text-align: center; color: #333; font-size: 0.7rem;">
         © 2026 DOD VAREJO. TODOS OS DIREITOS RESERVADOS.
     </footer>
 
